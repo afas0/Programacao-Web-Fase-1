@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .input-container {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .input-container input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .input-container button {
+      margin-left: 10px;
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .todo-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background-color: #f4f4f4;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .todo-item .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+    }
+
+    .todo-item .checkbox-container input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .todo-item .checkbox-container input[type="checkbox"]:checked {
+      background-color: #333;
+      border-color: #333;
+    }
+
+    .todo-item .checkbox-container input[type="checkbox"]:checked + label {
+      text-decoration: line-through;
+      color: #ccc;
+    }
+
+    .todo-item .todo-text {
+      flex: 1;
+    }
+
+    .todo-item .delete-btn {
+      margin-left: 10px;
+      background-color: #f44336;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="input-container">
+      <input type="text" id="todoInput" placeholder="Adicionar tarefa">
+      <button id="addBtn">Adicionar</button>
+    </div>
+    <ul class="todo-list" id="todoList"></ul>
+  </div>
+
+  <script>
+    const todoInput = document.getElementById('todoInput');
+    const addBtn = document.getElementById('addBtn');
+    const todoList = document.getElementById('todoList');
+
+    addBtn.addEventListener('click', addTodo);
+
+    function addTodo() {
+      const todoText = todoInput.value.trim();
+      if (todoText !== '') {
+        const todoItem = createTodoItem(todoText);
+        todoList.appendChild(todoItem);
+        todoInput.value = '';
+      }
+    }
+
+    function createTodoItem(text) {
+      const todoItem = document.createElement('li');
+      todoItem.classList.add('todo-item');
+
+      const checkboxContainer = document.createElement('div');
+      checkboxContainer.classList.add('checkbox-container');
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.addEventListener('change', toggleTodoComplete);
+
+      const label = document.createElement('label');
+      label.textContent = text;
+
+      checkboxContainer.appendChild(checkbox);
+      checkboxContainer.appendChild(label);
+      todoItem.appendChild(checkboxContainer);
+
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.classList.add('delete-btn');
+      deleteBtn.textContent = 'Remover';
+      deleteBtn.addEventListener('click', deleteTodo);
+      todoItem.appendChild(deleteBtn);
+
+      return todoItem;
+    }
+
+    function toggleTodoComplete(event) {
+      const todoItem = event.target.parentNode.parentNode;
+      todoItem.classList.toggle('completed');
+    }
+
+    function deleteTodo(event) {
+      const todoItem = event.target.parentNode;
+      todoList.removeChild(todoItem);
+    }
+  </script>
+</body>
+</html>

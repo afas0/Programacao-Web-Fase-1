@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Content Filter</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-container {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .search-container input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .list li {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      animation: fadeIn 0.5s;
+    }
+
+    .list li.hidden {
+      display: none;
+      animation: fadeOut 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Procurar nomes...">
+    </div>
+    <ul class="list" id="nameList">
+      <li>Pinto da Costa</li>
+      <li>Barack Obama</li>
+      <li>Luis Figo</li>
+      <li>Donald Trump</li>
+      <li>Cristiano Ronaldo</li>
+      <li>Antonio Salvador</li>
+      <li>Jesus Cristo</li>
+      <li>Leonel Messi</li>
+      <li>Luis Vieira</li>
+    </ul>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const nameList = document.getElementById('nameList');
+    const listItems = nameList.getElementsByTagName('li');
+
+    searchInput.addEventListener('input', filterNames);
+
+    function filterNames() {
+      const searchText = searchInput.value.toLowerCase();
+
+      for (let i = 0; i < listItems.length; i++) {
+        const itemText = listItems[i].textContent.toLowerCase();
+
+        if (itemText.includes(searchText)) {
+          listItems[i].classList.remove('hidden');
+        } else {
+          listItems[i].classList.add('hidden');
+        }
+      }
+    }
+  </script>
+</body>
+</html>

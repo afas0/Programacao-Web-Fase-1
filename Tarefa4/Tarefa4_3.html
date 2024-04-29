@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+  <style>
+    #map {
+      height: 500px;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      width: 300px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      z-index: 1000;
+    }
+
+    .card {
+      background-color: #f8f8f8;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="sidebar">
+    <h2>Procurar localizacao</h2>
+    <input type="text" id="locationInput" placeholder="Coloque a localizacao">
+    <button id="searchBtn">Procurar</button>
+    <div id="cardContainer"></div>
+  </div>
+
+  <script>
+    const map = L.map('map').setView([41.536940, -8.627987], 17);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    const locationInput = document.getElementById('locationInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const cardContainer = document.getElementById('cardContainer');
+
+    searchBtn.addEventListener('click', searchLocation);
+
+    function searchLocation() {
+      const location = locationInput.value;
+      if (location.trim() !== '') {
+        fetch(`https://nominatim.openstreetmap.org/search?q=${location}&format=json`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.length > 0) {
+              const { lat, lon } = data[0];
+              const marker = L.marker([lat, lon]).addTo(map);
+              map.setView([lat, lon], 13);
+
+              const locationData = {
+                name: data[0].display_name,
+                latitude: lat,
+                longitude: lon
+              };
+
+              displayLocationCard(locationData);
+            } else {
+              alert('Location not found');
+            }
+          })
+          .catch(error => console.error('Error:', error));
+      }
+    }
+
+    function displayLocationCard(data) {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.innerHTML = `
+        <h3>${data.name}</h3>
+        <p>Latitude: ${data.latitude}</p>
+        <p>Longitude: ${data.longitude}</p>
+      `;
+      cardContainer.appendChild(card);
+    }
+  </script>
+</body>
+</html>

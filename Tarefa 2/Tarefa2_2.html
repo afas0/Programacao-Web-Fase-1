@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabbed Navigation</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .tab-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      background-color: #f1f1f1;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .tab:hover {
+      background-color: #ddd;
+    }
+
+    .tab.active {
+      background-color: #fff;
+      border-bottom: 1px solid #fff;
+    }
+
+    .content {
+      border: 1px solid #ccc;
+      padding: 20px;
+      display: none;
+    }
+
+    .content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="tab-container">
+    <div class="tab active" data-target="tab1">Tab 1</div>
+    <div class="tab" data-target="tab2">Tab 2</div>
+    <div class="tab" data-target="tab3">Tab 3</div>
+  </div>
+
+  <div class="content active" id="tab1">
+    <h2>Conteudo para o Tab 1</h2>
+    <p>Exemplo tab1.</p>
+  </div>
+
+  <div class="content" id="tab2">
+    <h2>Conteudo para o Tab 2</h2>
+    <p>Exemplo tab2.</p>
+  </div>
+
+  <div class="content" id="tab3">
+    <h2>Conteudo para o Tab 3</h2>
+    <p>Exemplo tab3.</p>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetContent = document.getElementById(tab.dataset.target);
+
+        tabs.forEach(tab => tab.classList.remove('active'));
+        tab.classList.add('active');
+
+        contents.forEach(content => content.classList.remove('active'));
+        targetContent.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

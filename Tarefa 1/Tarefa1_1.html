@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello World</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #caa9a9;
+      font-family: "Lucida Console", "Courier New", monospace;
+    }
+
+    #message {
+      background-color: #933535;
+      color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      font-size: 36px;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const messageElement = document.createElement('div');
+    messageElement.id = 'message';
+    messageElement.textContent = 'Hello, World!';
+    document.body.appendChild(messageElement);
+  </script>
+</body>
+</html>

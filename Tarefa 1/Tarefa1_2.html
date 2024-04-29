@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Button</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+    }
+
+    button {
+      padding: 20px 40px;
+      font-size: 24px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <button id="colorChangeButton">Butao</button>
+
+  <script>
+    const button = document.getElementById('colorChangeButton');
+    //lista de cores
+    const colors = ['#ff6347', '#6495ed', '#ffd700', '#008000', '#ff69b4', '#ffa07a', '#00ced1', '#7fffd4', '#ff8c00', '#4b0082'];
+    let currentIndex = 0;
+    //percorre a lista
+    button.addEventListener('click', () => {
+      button.style.backgroundColor = colors[currentIndex];
+      currentIndex = (currentIndex + 1) % colors.length;
+    }); 
+  </script>
+</body>
+</html>
